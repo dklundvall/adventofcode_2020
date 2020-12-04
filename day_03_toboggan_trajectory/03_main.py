@@ -3,11 +3,11 @@ import os
 CUR_DIR_ABS_PATH = os.path.dirname(os.path.abspath(__file__))
 INPUT_FILE_NAME = '03_input.txt'
 INPUT_FILE_PATH = os.path.join(CUR_DIR_ABS_PATH, INPUT_FILE_NAME) 
+SLOPES = [(1,1), (1,3), (1,5), (1,7), (2,1)]
 
 def find_trees(row_step, col_step, map):
     width = len(map[0]) - 1
     height = len(map)
-
     row = 0
     col = 0
     trees = 0
@@ -15,10 +15,8 @@ def find_trees(row_step, col_step, map):
     while row + 1 < height:
         col += col_step
         row += row_step
-
         if map[row][col%width] == '#':
             trees += 1
-    print(trees)
     return trees
 
 if __name__ == '__main__':    
@@ -28,10 +26,6 @@ if __name__ == '__main__':
             map.append(line)
         input_file.close()
     answer = 1
-    answer *= find_trees(1, 1, map)
-    answer *= find_trees(1, 3, map)
-    answer *= find_trees(1, 5, map)
-    answer *= find_trees(1, 7, map)
-    answer *= find_trees(2, 1, map)
-
+    for slope in SLOPES:
+        answer *= find_trees(*slope, map)
     print(answer)
